@@ -54,8 +54,8 @@ function setAttributeImage(src, alt) {
 }
 
 function closeModal() {
-  modalIcon.classList.remove("is-open");
   largeImg.src = "";
+  modalIcon.classList.remove("is-open");
   window.removeEventListener("keydown", handlArrowPress);
   window.removeEventListener("keydown", closeByEsc);
   btnClose.removeEventListener("click", closeModal);
@@ -64,24 +64,24 @@ function closeModal() {
 
 function closeByOverley() {
   if (event.target.nodeName == "IMG") {
-    leftOrRigthByImg ();
+    // leftOrRigthByImg();
     return;
   }
   closeModal();
   return;
 }
 
-function leftOrRigthByImg (){
-  const imageXY = event.target.clientWidth * 0.5;
-    if (event.offsetX > imageXY) {
-      rightImageIndex();
-      return;
-    }
-    if (event.offsetX < imageXY) {
-      leftImageIndex();
-      return;
-    }
-}
+// function leftOrRigthByImg() {
+//   const imageXY = event.target.clientWidth * 0.5;
+//   if (event.offsetX > imageXY) {
+//     rightImageIndex();
+//     return;
+//   }
+//   if (event.offsetX < imageXY) {
+//     leftImageIndex();
+//     return;
+//   }
+// }
 
 function closeByEsc() {
   if (event.keyCode == "27") {
@@ -98,26 +98,32 @@ function handlArrowPress(el) {
   }
 }
 
-function leftImageIndex() {
-  findIndexImage = images.findIndex((el) => el.original === modalImageUrl);
-  if (findIndexImage === 0) {
-    findIndexImage = images.length - 1;
-  } else {
-    findIndexImage -= 1;
-  }
+function setAttribute() {
   modalImageUrl = images[findIndexImage].original;
   modalImageAlt = images[findIndexImage].description;
   setAttributeImage(modalImageUrl, modalImageAlt);
 }
 
-function rightImageIndex() {
+function findIndexImg() {
   findIndexImage = images.findIndex((el) => el.original === modalImageUrl);
+}
+
+function leftImageIndex() {
+  findIndexImg();
+  if (findIndexImage === 0) {
+    findIndexImage = images.length - 1;
+  } else {
+    findIndexImage -= 1;
+  }
+  setAttribute();
+}
+
+function rightImageIndex() {
+  findIndexImg();
   if (findIndexImage === images.length - 1) {
     findIndexImage = 0;
   } else {
     findIndexImage += 1;
   }
-  modalImageUrl = images[findIndexImage].original;
-  modalImageAlt = images[findIndexImage].description;
-  setAttributeImage(modalImageUrl, modalImageAlt);
+  setAttribute();
 }
